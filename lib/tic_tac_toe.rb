@@ -33,7 +33,7 @@ class TicTacToe
     end
 
     def valid_move?(input_to_index)
-        @board[input_to_index] == " "
+        @board[input_to_index] == " " && input_to_index.between?(0..8)
     end
 
     def turn_count
@@ -59,6 +59,7 @@ class TicTacToe
         if valid_move?(user_move)
             @board[user_move] = current_player
         else 
+            
             turn
         end
         
