@@ -33,7 +33,7 @@ class TicTacToe
     end
 
     def valid_move?(input_to_index)
-        @board[input_to_index] == " " && input_to_index.between?(0..8)
+        @board[input_to_index] == " " && input_to_index.between?(0,8)
     end
 
     def turn_count
@@ -68,24 +68,9 @@ class TicTacToe
     end
 
     def won?
-        x_array = []
-        o_array = []
-        @board.each_with_index do |move, index|
-            if move == "X"
-                x_array.push(index)
-            end
-            if move == "O"
-                o_array.push(index)
-            end
+        WIN_COMBINATIONS.find do |combo|
+            @board[combo[0]] == @board[combo[1]] && @board[combo[2]] == @board[combo[0]] && @board[combo[0]] != " "
         end
-        WIN_COMBINATIONS.each do |combo|
-            if x_array.include?(combo)
-                return combo.join
-            elsif o_array.include?(combo)
-                return combo.join
-            end
-        end
-        return false
     end
 
     def full?
@@ -118,14 +103,25 @@ class TicTacToe
 
     def winner
         if won?
-            return current_player
+            if current_player == "X"
+                return "O"
+            else
+                return "X"
+            end
         else
             return nil
         end
     end
 
     def play 
-
+        while !over?
+            turn
+        end
+        if winner == nil
+            puts "Cat's Game!"
+        else
+            puts "Congratulations #{winner}!"
+        end
     end
 
 end
